@@ -212,8 +212,8 @@ export default function DashboardPage() {
   }
 
   return (
-    // add stylign later
-    <div className="relative min-h-screen overflow-hidden text-white bg-white">
+    // !! add styling later
+    <div className="relative min-h-screen overflow-hidden ">
       <h1 className="text-2xl font-bold text-ink">Welcome {getName}</h1>
       <div>
         {/* show if signed in */}
