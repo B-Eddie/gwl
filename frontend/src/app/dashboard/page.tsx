@@ -7,8 +7,8 @@ import Calendar from "react-calendar";
 import AdminAttendanceTable from "@/components/AdminAttendanceTable";
 import type { TileArgs } from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -33,7 +33,10 @@ export default function DashboardPage() {
     async function checkIfSignedInToday() {
       const { data } = await supabase.auth.getSession();
       const user = data.session?.user;
-      if (!user) return;
+      if (!user) {
+        setSignedInToday(false);
+        return;
+      }
 
       const { data: attendanceData, error: attendanceError } = await supabase
         .from("attendance")
@@ -41,8 +44,12 @@ export default function DashboardPage() {
         .eq("user_id", user.id)
         .eq("date", toDateKey(new Date()))
         .maybeSingle();
-      if (attendanceError || !attendanceData) return;
-      setSignedInToday(true);
+      if (attendanceError) {
+        setSignedInToday(false);
+        return;
+      }
+
+      setSignedInToday(Boolean(attendanceData));
     }
 
     // load attendance data
@@ -213,7 +220,7 @@ export default function DashboardPage() {
 
   return (
     // !! add styling later
-    <div className="relative min-h-screen overflow-hidden ">
+    <div className="">
       <h1 className="text-2xl font-bold text-ink">Welcome {getName}</h1>
       <div>
         {/* show if signed in */}
@@ -237,7 +244,7 @@ export default function DashboardPage() {
         {signedInToday && signedInToday !== null && (
           <p className="mt-2 text-sm text-ink-muted">Signed in today.</p>
         )}
-        
+
         {/* if user did not sign in today */}
         {!signedInToday && !isAdmin && signedInToday !== null && (
           <form onSubmit={handleSignInToday}>
