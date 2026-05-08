@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-dm-sans);
+  --color-surface: #f8fafc;
+  --color-surface-card: #ffffff;
+  --color-ink: #0f172a;
+  --color-ink-muted: #64748b;
+  --color-brand: #4f46e5;
+  --color-brand-hover: #4338ca;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.attendance-calendar {
+  margin-top: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background: #fff;
+  padding: 0.5rem;
+}
+
+.attendance-calendar .react-calendar__tile--now {
+  background: transparent;
+}
+
+.attendance-calendar .attendance-today {
+  background: #e0e7ff;
+  color: #312e81;
+}
+
+.attendance-calendar .attendance-signed {
+  background: #c7f9cc;
+  color: #14532d;
+  font-weight: 700;
+}
+
+.attendance-calendar .attendance-signed.attendance-today {
+  background: #bfdbfe;
+  color: #1e3a8a;
+}
