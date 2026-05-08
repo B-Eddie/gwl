@@ -59,8 +59,20 @@ export async function POST(request: NextRequest) {
   }
 
   const { supabase, applyCookies } = createRouteSupabase(request);
-  const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+  // New users may take a brief moment to become available for password sign-in.
+  let signInErr: { message?: string } | null = null;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    signInErr = error;
+    if (!signInErr) break;
+    await new Promise((resolve) => setTimeout(resolve, 250));
+  }
   const json = NextResponse.json({ ok: true }, { status: 201 });
-  if (signInErr) return json;
+  if (signInErr) {
+    return NextResponse.json(
+      { error: "Account created, but automatic sign in failed. Please log in." },
+      { status: 503 },
+    );
+  }
   return applyCookies(json);
 }

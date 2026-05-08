@@ -535,8 +535,33 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     // Redirect unauthenticated users only from protected routes.
     if (isAuthenticated === null) return;
     if (!isAuthenticated && isProtectedRoute) {
-      router.push("/");
-      router.refresh();
+      let isCancelled = false;
+
+      async function retrySessionThenRedirect() {
+        // After signup/login, cookies can lag briefly in client auth state.
+        for (let attempt = 0; attempt < 3; attempt += 1) {
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+          if (session?.user) {
+            if (!isCancelled) {
+              setIsAuthenticated(true);
+            }
+            return;
+          }
+          await new Promise((resolve) => setTimeout(resolve, 250));
+        }
+
+        if (!isCancelled) {
+          router.push("/auth/login/");
+          router.refresh();
+        }
+      }
+
+      void retrySessionThenRedirect();
+      return () => {
+        isCancelled = true;
+      };
     }
   }, [isAuthenticated, isProtectedRoute, router]);
 

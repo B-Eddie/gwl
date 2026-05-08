@@ -14,7 +14,8 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const d = schoolDomain();
 
-  const inputField = "block w-full px-4 py-3 text-white transition border outline-none rounded-xl border-white/20 bg-white/10 placeholder:text-white/45 focus:border-white/50 focus:bg-white/15"
+  const inputField =
+    "block w-full px-4 py-3 text-white transition border outline-none rounded-xl border-white/20 bg-white/10 placeholder:text-white/45 focus:border-white/50 focus:bg-white/15";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -24,6 +25,7 @@ export default function RegisterPage() {
     const res = await fetch("/api/auth/signup/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
       body: JSON.stringify({ email, password, display_name: displayName }),
     });
 
@@ -41,7 +43,9 @@ export default function RegisterPage() {
     <div className="relative min-h-screen overflow-hidden text-white bg-black">
       <div className="relative z-10 flex items-center justify-center min-h-screen px-6 py-12">
         <div className="w-full max-w-md p-8 border shadow-2xl rounded-3xl border-white/15 bg-white/5 backdrop-blur-xl sm:p-10">
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Create account</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Create account
+          </h1>
           <p className="mt-1 text-sm text-white/70">
             @{d} email and password (8+ characters).
           </p>
@@ -52,10 +56,7 @@ export default function RegisterPage() {
             </p>
           )}
 
-          <form
-            onSubmit={onSubmit}
-            className="p-6 px-0 space-y-4"
-          >
+          <form onSubmit={onSubmit} className="p-6 px-0 space-y-4">
             <input
               type="email"
               autoComplete="email"
@@ -92,15 +93,15 @@ export default function RegisterPage() {
               {loading ? "…" : "Create account"}
             </button>
 
-          <p className="mt-6 text-sm text-center text-white/70">
-            Already have an account?{" "}
-            <Link
-              href="/auth/login/"
-              className="font-semibold text-white hover:text-white/85"
-            >
-              Log in
-            </Link>
-          </p>
+            <p className="mt-6 text-sm text-center text-white/70">
+              Already have an account?{" "}
+              <Link
+                href="/auth/login/"
+                className="font-semibold text-white hover:text-white/85"
+              >
+                Log in
+              </Link>
+            </p>
           </form>
         </div>
       </div>

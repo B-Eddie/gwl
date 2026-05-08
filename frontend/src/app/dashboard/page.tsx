@@ -218,6 +218,12 @@ export default function DashboardPage() {
     }
   }
 
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    router.push("/");
+    router.refresh();
+  }
+
   return (
     // !! add styling later
     <div className="">
@@ -267,6 +273,10 @@ export default function DashboardPage() {
 
         {/* admin dashboard */}
         {isAdmin && <AdminAttendanceTable />}
+        
+        {/* signout */}
+        <button onClick={handleSignOut} className="rounded-lg bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-hover mt-2">Sign out</button>
+
       </div>
     </div>
   );

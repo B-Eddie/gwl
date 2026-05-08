@@ -14,7 +14,8 @@ export function supabaseAnonKey(): string {
   const k =
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim() ||
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY?.trim();
-  if (!k) throw new Error("NEXT_PUBLIC_SUPABASE_ANON_KEY or PUBLISHABLE_KEY missing");
+  if (!k)
+    throw new Error("NEXT_PUBLIC_SUPABASE_ANON_KEY or PUBLISHABLE_KEY missing");
   return k;
 }
 
@@ -29,7 +30,9 @@ export function createRouteSupabase(request: NextRequest) {
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+        cookiesToSet.forEach(({ name, value }) =>
+          request.cookies.set(name, value),
+        );
         cookieRes = NextResponse.next({ request });
         cookiesToSet.forEach(({ name, value, options }) =>
           cookieRes.cookies.set(name, value, options),
@@ -38,7 +41,9 @@ export function createRouteSupabase(request: NextRequest) {
     },
   });
   const applyCookies = (to: NextResponse) => {
-    cookieRes.cookies.getAll().forEach(({ name, value }) => to.cookies.set(name, value));
+    cookieRes.cookies
+      .getAll()
+      .forEach(({ name, value }) => to.cookies.set(name, value));
     return to;
   };
   return { supabase, applyCookies };
