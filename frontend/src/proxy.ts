@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { isSchoolEmail, normalizeEmail } from "@/lib/domain";
 import { supabaseAnonKey, supabaseUrl } from "@/lib/supabase";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   // check if user is logged in
 
   let res = NextResponse.next({ request });

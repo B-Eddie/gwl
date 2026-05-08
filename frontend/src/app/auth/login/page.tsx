@@ -14,6 +14,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const d = schoolDomain();
 
+  const inputField = "block w-full px-4 py-3 text-white transition border outline-none rounded-xl border-white/20 bg-white/10 placeholder:text-white/45 focus:border-white/50 focus:bg-white/15"
+
   // ignore deprecation notice
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,51 +44,61 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <h1 className="text-2xl font-bold text-ink">Sign in</h1>
-      <p className="mt-1 text-sm text-ink-muted">@{d} account.</p>
-      {error && (
-        <p className="px-3 py-2 mt-4 text-sm text-red-800 rounded-lg bg-red-50">
-          {error}
-        </p>
-      )}
-      <form
-        onSubmit={onSubmit}
-        className="p-6 mt-8 space-y-4 border shadow-sm rounded-2xl border-slate-200 bg-surface-card"
-      >
-        <input
-          type="email"
-          autoComplete="email"
-          placeholder={`you@${d}`}
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="block w-full px-3 py-2 border rounded-lg border-slate-300"
-        />
+    <div className="relative min-h-screen overflow-hidden text-white bg-black">
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-6 py-12">
+        <div className="w-full max-w-md p-8 border shadow-2xl rounded-3xl border-white/15 bg-white/5 backdrop-blur-xl sm:p-10">
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Log in
+          </h1>
+          <p className="mt-2 text-sm text-white/70">Use your @{d} account.</p>
 
-        <input
-          type="password"
-          autoComplete="current-password"
-          placeholder="password"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="block w-full px-3 py-2 border rounded-lg border-slate-300"
-        />
+          {error && (
+            <p className="px-3 py-2 mt-5 text-sm text-red-100 border rounded-xl border-red-400/30 bg-red-500/15">
+              {error}
+            </p>
+          )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-        >
-          {loading ? "…" : "Sign in"}
-        </button>
-      </form>
-      <p className="mt-6 text-sm text-center text-ink-muted">
-        <Link href="/auth/register/" className="text-brand hover:underline">
-          Create account
-        </Link>
-      </p>
+          <form onSubmit={onSubmit} className="mt-8 space-y-4">
+            <input
+              type="email"
+              autoComplete="email"
+              placeholder={`you@${d}`}
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={inputField}
+            />
+
+            <input
+              type="password"
+              autoComplete="current-password"
+              placeholder="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={inputField}
+            />
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 text-sm font-semibold text-black transition bg-white rounded-full hover:bg-gray-200 disabled:opacity-60"
+            >
+              {loading ? "…" : "Sign in"}
+            </button>
+          </form>
+
+          <p className="mt-6 text-sm text-center text-white/70">
+            Need an account?{" "}
+            <Link
+              href="/auth/register/"
+              className="font-semibold text-white hover:text-white/85"
+            >
+              Create account
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

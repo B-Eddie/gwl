@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { schoolDomain } from "@/lib/domain";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -12,6 +13,8 @@ export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const d = schoolDomain();
+
+  const inputField = "block w-full px-4 py-3 text-white transition border outline-none rounded-xl border-white/20 bg-white/10 placeholder:text-white/45 focus:border-white/50 focus:bg-white/15"
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -35,56 +38,72 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      <h1 className="text-2xl font-bold text-ink">Create account</h1>
-      <p className="mt-1 text-sm text-ink-muted">
-        @{d} email and password (8+ characters).
-      </p>
-      {error && (
-        <p className="px-3 py-2 mt-4 text-sm text-red-800 rounded-lg bg-red-50">
-          {error}
-        </p>
-      )}
-      <form
-        onSubmit={onSubmit}
-        className="p-6 mt-8 space-y-4 border shadow-sm rounded-2xl border-slate-200 bg-surface-card"
-      >
-        <input
-          type="email"
-          autoComplete="email"
-          placeholder={`you@${d}`}
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="block w-full px-3 py-2 border rounded-lg border-slate-300"
-        />
-        <input
-          type="password"
-          autoComplete="new-password"
-          placeholder="password"
-          minLength={8}
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="block w-full px-3 py-2 border rounded-lg border-slate-300"
-        />
-        <input
-          type="text"
-          autoComplete="name"
-          placeholder="Display name"
-          required
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-          className="block w-full px-3 py-2 border rounded-lg border-slate-300"
-        />
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-        >
-          {loading ? "…" : "Create account"}
-        </button>
-      </form>
+    <div className="relative min-h-screen overflow-hidden text-white bg-black">
+      <div className="relative z-10 flex items-center justify-center min-h-screen px-6 py-12">
+        <div className="w-full max-w-md p-8 border shadow-2xl rounded-3xl border-white/15 bg-white/5 backdrop-blur-xl sm:p-10">
+          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">Create account</h1>
+          <p className="mt-1 text-sm text-white/70">
+            @{d} email and password (8+ characters).
+          </p>
+
+          {error && (
+            <p className="px-3 text-sm text-red-800 rounded-lg bg-red-50">
+              {error}
+            </p>
+          )}
+
+          <form
+            onSubmit={onSubmit}
+            className="p-6 px-0 space-y-4"
+          >
+            <input
+              type="email"
+              autoComplete="email"
+              placeholder={`you@${d}`}
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={inputField}
+            />
+            <input
+              type="password"
+              autoComplete="new-password"
+              placeholder="password"
+              minLength={8}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={inputField}
+            />
+            <input
+              type="text"
+              autoComplete="name"
+              placeholder="display name"
+              required
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              className={inputField}
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 text-sm font-semibold text-black transition bg-white rounded-full hover:bg-gray-200 disabled:opacity-60"
+            >
+              {loading ? "…" : "Create account"}
+            </button>
+
+          <p className="mt-6 text-sm text-center text-white/70">
+            Already have an account?{" "}
+            <Link
+              href="/auth/login/"
+              className="font-semibold text-white hover:text-white/85"
+            >
+              Log in
+            </Link>
+          </p>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
