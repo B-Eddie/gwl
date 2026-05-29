@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-table";
 import Calendar from "react-calendar";
 import Skeleton from "react-loading-skeleton";
+import { ChevronLeft, ChevronRight, HelpCircle } from "lucide-react";
 
 type AttendanceRecord = {
   id: string;
@@ -108,7 +109,7 @@ export default function AdminAttendanceTable() {
   });
 
   if (isLoading) {
-    return <Skeleton count={1} width={512} height={559} />;
+    return <Skeleton count={1} width="100%" height={559} />;
   }
 
   return (
@@ -119,6 +120,20 @@ export default function AdminAttendanceTable() {
       <div className="px-4 py-4 bg-white border-b border-gray-200">
         <Calendar
           className="attendance-calendar"
+          minDetail="month"
+          maxDetail="month"
+          prev2Label={null}
+          next2Label={null}
+          prevLabel={<ChevronLeft className="h-5 w-5" strokeWidth={2} />}
+          nextLabel={<ChevronRight className="h-5 w-5" strokeWidth={2} />}
+          prevAriaLabel="Previous month"
+          nextAriaLabel="Next month"
+          formatMonthYear={(locale, date) =>
+            date.toLocaleDateString(locale, {
+              month: "long",
+              year: "numeric",
+            })
+          }
           value={selectedDate}
           onChange={(value) => {
             if (value instanceof Date) {
