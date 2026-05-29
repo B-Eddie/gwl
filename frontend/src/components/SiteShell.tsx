@@ -120,8 +120,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               <h1 className="mb-6 text-4xl font-bold tracking-tight text-black sm:text-6xl lg:text-7xl">
                 Check into GWL{" "}
                 <span className="text-transparent bg-gradient-to-r to-accent from-[#5C6B73] bg-clip-text">
-           
-                  fast and easily
+                  quickly and easily
                 </span>
               </h1>
 
@@ -134,7 +133,11 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               <div className="flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
                 <button
                   className="flex font-semibold text-black bg-accent rounded-lg shadow-lg px-8 py-4 text-white hover:cursor-pointer"
-                  onClick={() => router.push(isAuthenticated ? "/dashboard/" : "/auth/register/")}
+                  onClick={() =>
+                    router.push(
+                      isAuthenticated ? "/dashboard/" : "/auth/register/",
+                    )
+                  }
                 >
                   {isAuthenticated ? "Dashboard" : "Get Started"}
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -152,7 +155,14 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               />
 
               <div className="absolute left-0 bottom-0 translate-y-1/2 -translate-x-1/4 flex flex-row items-center justify-center  bg-[#F9F9FCD9] rounded-lg p-4 gap-4">
-                <img src="/icon.svg" className="p-2 w-10 bg-light-accent rounded-lg" alt="" width={128} height={128} draggable={false} />
+                <img
+                  src="/icon.svg"
+                  className="p-2 w-10 bg-light-accent rounded-lg"
+                  alt=""
+                  width={128}
+                  height={128}
+                  draggable={false}
+                />
                 <div className="flex flex-col">
                   <p>Status</p>
                   <p>Location Verified</p>
